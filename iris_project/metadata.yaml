@@ -1,0 +1,52 @@
+project_type: python
+pipeline_uuid: iris_classifier
+
+blocks:
+  - uuid: load_iris
+    type: data_loader
+    language: python
+    upstream_blocks: []
+    downstream_blocks:
+      - validate_data
+
+  - uuid: validate_data
+    type: custom
+    language: python
+    upstream_blocks:
+      - load_iris
+    downstream_blocks:
+      - prepare_data
+
+  - uuid: prepare_data
+    type: transformer
+    language: python
+    upstream_blocks:
+      - validate_data
+    downstream_blocks:
+      - train_model
+
+  - uuid: train_model
+    type: custom
+    language: python
+    upstream_blocks:
+      - prepare_data
+    downstream_blocks:
+      - save_results
+      - evaluate_model
+
+  - uuid: save_results
+    type: data_exporter
+    language: python
+    upstream_blocks:
+      - train_model
+    downstream_blocks: []
+
+  - uuid: evaluate_model
+    type: custom
+    language: python
+    upstream_blocks:
+      - train_model
+    downstream_blocks: []
+
+executor_type: local_python
+run_pipeline_in_one_process: false
