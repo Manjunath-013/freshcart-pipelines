@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.whl
+
+# Environment & secrets
+.env
+.env.*
+*.env
+
+# Data files (auto-generated)
+*.csv
+*.pkl
+*.pickle
+*.parquet
+
+# Mage logs
+mage.log
+mage_data/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Snowflake credentials (never commit!)
+snowflake_creds.json
