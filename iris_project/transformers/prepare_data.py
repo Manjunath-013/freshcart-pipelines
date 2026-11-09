@@ -1,11 +1,6 @@
 """
-Mage block: prepare_data
-Type: transformer
-Pipeline: iris_classifier
-
-Splits the Iris DataFrame into train (80 %) and test (20 %) sets,
-adds a 'split' column, and shuffles with a fixed random seed.
-Can be imported outside Mage (decorators are conditionally imported).
+Mage block: prepare_data  — INTENTIONALLY BROKEN for CI red-run demo (Part A3)
+Reverts immediately in the next commit.
 """
 
 try:
@@ -25,12 +20,9 @@ from sklearn.model_selection import train_test_split
 @transformer
 def transform(df: pd.DataFrame, *args, **kwargs) -> pd.DataFrame:
     """
-    Add a 'split' column ('train' | 'test') using an 80/20 stratified split.
-
-    Runtime variable supported:
-        test_size (float): override the default 0.2 (passed via --runtime-vars)
+    BROKEN: test_size changed to 0.3 to trigger red CI run.
     """
-    test_size = float(kwargs.get("test_size", 0.2))
+    test_size = float(kwargs.get("test_size", 0.3))  # ← BROKEN: was 0.2
     random_state = int(kwargs.get("random_state", 42))
 
     train_idx, test_idx = train_test_split(
@@ -59,11 +51,9 @@ def test_split_ratio(df: pd.DataFrame) -> None:
 
 @test
 def test_split_column_exists(df: pd.DataFrame) -> None:
-    """'split' column must be present."""
     assert "split" in df.columns, "Missing 'split' column"
 
 
 @test
 def test_no_data_loss(df: pd.DataFrame) -> None:
-    """Total rows must still be 150."""
     assert len(df) == 150, f"Row count changed: {len(df)}"
