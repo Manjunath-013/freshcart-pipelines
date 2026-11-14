@@ -59,3 +59,4 @@ def test_data_quality(df: pd.DataFrame) -> None:
 
     feature_cols = [c for c in df.columns if c not in ("target", "split")]
     assert (df[feature_cols] < 0).sum().sum() == 0, "Found negative feature values"
+

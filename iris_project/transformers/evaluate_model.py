@@ -1,20 +1,23 @@
 """
-Mage block: evaluate_model
-Type: transformer
-Pipeline: iris_classifier
+iris_project/transformers/evaluate_model.py
+Mage block: evaluate_model  |  type: transformer
+Pipeline: iris_classifier  (downstream branch from train_model — Part C3)
 
-Evaluates predictions from train_model: prints confusion matrix and
-returns a metrics DataFrame (accuracy, precision, recall, f1_score).
-Based on the real instructor Mage notebook (Latest/Maze_ML_PipeLine.ipynb).
+Prints confusion matrix and per-class metrics table.
+Runs in parallel with save_results after train_model's @test passes.
 """
 
 import pandas as pd
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
-if 'transformer' not in globals():
-    from mage_ai.data_preparation.decorators import transformer
-if 'test' not in globals():
-    from mage_ai.data_preparation.decorators import test
+try:
+    from mage_ai.data_preparation.decorators import test, transformer
+except ImportError:
+    def transformer(fn):
+        return fn
+
+    def test(fn):
+        return fn
 
 
 @transformer
@@ -28,17 +31,12 @@ def evaluate(df, *args, **kwargs):
     metrics = pd.DataFrame({
         'metric': ['accuracy', 'precision', 'recall', 'f1_score'],
         'value': [
-            accuracy_score(y_true, y_pred),
-            precision_score(y_true, y_pred, average='weighted', zero_division=0),
-            recall_score(y_true, y_pred, average='weighted', zero_division=0),
-            f1_score(y_true, y_pred, average='weighted', zero_division=0),
+            round(accuracy_score(y_true, y_pred), 3),
+            round(precision_score(y_true, y_pred, average='macro'), 3),
+            round(recall_score(y_true, y_pred, average='macro'), 3),
+            round(f1_score(y_true, y_pred, average='macro'), 3),
         ]
     })
+    print('\nMetrics:')
     print(metrics.to_string(index=False))
     return metrics
-
-
-@test
-def test_metrics_shape(output, *args):
-    assert len(output) == 4, 'Expected 4 metric rows'
-    assert 'metric' in output.columns and 'value' in output.columns

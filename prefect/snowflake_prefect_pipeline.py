@@ -191,3 +191,4 @@ if __name__ == "__main__":
     second_result = orders_pipeline()
     assert second_result == result, "Re-run changed the totals!"
     print("Same totals after second run:", second_result)
+

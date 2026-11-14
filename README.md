@@ -67,3 +67,4 @@ RabbitMQ Stream ──► Dispatcher ──► Drivers (ACK/NACK)
                          │
                          └──► Consumer ──► Snowflake Gold (Bonus)
 ```
+

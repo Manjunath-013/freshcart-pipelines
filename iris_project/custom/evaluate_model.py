@@ -60,3 +60,4 @@ def transform_custom(result: dict, *args, **kwargs) -> pd.DataFrame:
 def test_metrics_shape(df: pd.DataFrame) -> None:
     """Metrics table must have at least 3 class rows."""
     assert len(df) >= 3, "Expected at least 3 rows in metrics table"
+

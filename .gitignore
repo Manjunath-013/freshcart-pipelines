@@ -40,3 +40,4 @@ Thumbs.db
 
 # Snowflake credentials (never commit!)
 snowflake_creds.json
+

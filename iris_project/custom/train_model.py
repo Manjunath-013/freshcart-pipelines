@@ -79,3 +79,4 @@ def test_accuracy_gate(result: dict) -> None:
         f"Accuracy {acc:.4f} < threshold {MIN_ACCURACY}. "
         "Pipeline stopped — model not saved."
     )
+

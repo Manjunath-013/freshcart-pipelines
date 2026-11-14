@@ -3,7 +3,7 @@ snowflake-connector-python==3.12.3
 pandas==2.2.3
 numpy==1.26.4
 
-# ML pipeline (Mage)
+# ML pipeline
 scikit-learn==1.5.2
 joblib==1.4.2
 
@@ -20,8 +20,7 @@ pytest-cov==5.0.0
 # Notebook / ELT
 jupyter==1.1.1
 ipykernel==6.29.5
-
-# Visualization
+sqlalchemy==2.0.36
 matplotlib==3.9.2
 
 # Utilities

@@ -1,20 +1,25 @@
 """
-Mage block: save_results
-Type: data_exporter
+iris_project/data_exporters/save_results.py
+Mage block: save_results  |  type: data_exporter
 Pipeline: iris_classifier
 
-Saves test predictions to iris_predictions.csv.
-Based on the real instructor Mage notebook (Latest/Maze_ML_PipeLine.ipynb).
+Saves iris_predictions.csv.
+Only runs if train_model's @test gate passes (accuracy >= 0.8).
 """
 
-if 'data_exporter' not in globals():
-    from mage_ai.data_preparation.decorators import data_exporter
-if 'test' not in globals():
-    from mage_ai.data_preparation.decorators import test
+try:
+    from mage_ai.data_preparation.decorators import data_exporter, test
+except ImportError:
+    def data_exporter(fn):
+        return fn
 
-import pandas as pd
+    def test(fn):
+        return fn
 
 
+# data_exporter marks this as a step that sends data out of the pipeline.
+# 'df' is the 30 predicted rows returned by train_model, passed in automatically by Mage.
+# It saves them to a CSV file and returns nothing, because this is an end of the pipeline.
 @data_exporter
 def export_data(df, *args, **kwargs):
     df.to_csv('iris_predictions.csv', index=False)
